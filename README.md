@@ -235,73 +235,19 @@ does not reproduce bit-for-bit, and §8 for runtime.
 
 ## 7. Reproducibility notes — what matches and what does not
 
-**Path A reproduces the provided tables and figures exactly.** Running the
-`Tables/` scripts on the provided `Replication results/` reproduces all of
-Tables 2–13 **bit-for-bit** (verified: regenerated workbooks are numerically
-identical to the table workbooks provided here). The figures redraw from the same
-stored error/SHAP files. (One nuance on the multi-horizon-test columns versus the
-*submitted* paper is noted below.)
-
-**Path B (regenerating the forecasts) reproduces most models exactly, with a few
-documented exceptions:**
-
-- **Closed-form / linear models — exact.** RW, SRW, dummy-augmented AR and
-  Ciccarelli–Mojon reproduce to **machine precision** (~1e-15). The **Elastic
-  Net** also reproduces to machine precision **provided scikit-learn 1.0.x is
-  used** (its `ElasticNetCV` penalty-grid selection changed in later releases;
-  the pin in `requirements.txt` handles this).
-
-- **Random Forest (and its PCA / DFM / OLS variants) — not bit-for-bit, but the
-  cause is understood and is neither the data nor the model.** RF tunes the
-  `max_features` hyper-parameter by cross-validation (`n_estimators` is fixed at
-  500). On a subset of windows two `max_features` values give *near-identical*
-  CV scores, and the argument-of-the-minimum can fall on either side. Which side
-  is chosen is sensitive to package versions and to the column order of the
-  feature matrix (the code was refactored at one point, which may have changed
-  that order). When the selected `max_features` flips, the forecasts for the
-  window it governs change by ~1e-3 (in differenced-inflation units). **Forcing
-  the same `max_features` reproduces RF to ~1e-18**, which confirms the
-  discrepancy is the tie-break, not the code or the data.
-  - **Footprint (estimated on a subsample; a full re-run is infeasible — see
-    `Forecasting/Main case/estimate_RF_footprint.py`).** On 10 countries over the
-    first 60 out-of-sample months at h = 1 (600 forecasts), **209 (≈ 35 %) differ**
-    from the stored values, and **all 10 countries** have at least some affected
-    months. The differences are tiny: **median |difference| ≈ 2.2e-4, max ≈ 2.3e-3**
-    (in differenced-inflation units), and each country's RMSE over the window stays
-    within **±0.8 % of the stored value** (range 0.992–1.005). Extrapolated to the
-    full main-sample panel (91 countries × ~238 out-of-sample months × 4 horizons,
-    ~85k forecasts), roughly a third of the individual forecasts differ by this
-    tiny amount, scattered across essentially all countries — but the effect on the
-    reported RMSE/MAD **ratios is negligible** (they move only in the 3rd–4th
-    decimal, so the tables round the same).
-
-- **XGBoost, the neural-net ensemble, and the autoencoder factors — not
-  bit-for-bit (no seeds in the original runs).** These models were run **without
-  fixed random seeds** for the paper, so they cannot be reproduced exactly by
-  construction. The code here **does** set seeds (so it is reproducible going
-  forward), but the seeded values differ from the paper's unseeded values. The
-  effect on the reported RMSE ratios is **tiny** (a small fraction of a percent;
-  conclusions unchanged).
-
-- **Autoencoder factors were regenerated.** The autoencoder factors used by
-  `Forecast_RF_AE.py` were **re-created** for this package because the original
-  factor files produced for the paper in 2022 were lost. Since the autoencoder
-  (Keras) was unseeded originally, the regenerated factors are not identical to
-  the 2022 ones, which slightly changes the RF-AE (alternative-factors) results.
-  These differences, too, are tiny and do not affect the conclusions.
-
-- **Multi-horizon SPA test — slight randomness vs the *submitted* paper.** The
-  multi-horizon average-SPA test (Quaedvlieg 2021), whose p-values appear in the
-  last columns of the forecasting tables, uses a moving-block bootstrap that was
-  **not seeded for the submitted paper**, so those p-values (and the
-  share-below-5% column) may differ marginally from the printed values. The code
-  here now **seeds the bootstrap**, so it is reproducible run-to-run. This affects
-  only the SPA columns of Tables 2, 3, 12 and 13 and changes no conclusion.
-
-**In short:** for the reproducibility check, **Path A reproduces the provided
-tables and figures exactly.** A full Path-B re-run reproduces all linear/benchmark models exactly
-and the machine-learning models up to small, well-understood, non-material
-differences.
+**Path A reproduces the provided tables and figures exactly** — running the
+`Tables/`/`Figures/` scripts on the provided `Replication results/` regenerates
+Tables 2–13 bit-for-bit and redraws every figure from the same stored files.
+**Path B (regenerating the forecasts)** reproduces the closed-form/linear models —
+RW, SRW, dummy-augmented AR, Ciccarelli–Mojon, and (with scikit-learn 1.0.x) the
+Elastic Net — to machine precision. The machine-learning results differ only by
+small, well-understood, **non-material** amounts that change no conclusion: a
+`max_features` cross-validation tie-break in Random Forest and its PCA/DFM/OLS
+variants (~1e-3 per affected window; the reported ratios round the same), and the
+originally **unseeded** XGBoost, neural-net ensemble, regenerated autoencoder
+factors, and multi-horizon SPA-test bootstrap (whose p-values sit in the last
+columns of Tables 2, 3, 12 and 13). The code here now fixes all of these seeds, so
+the results are reproducible run-to-run going forward.
 
 ---
 
