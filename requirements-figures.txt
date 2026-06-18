@@ -33,4 +33,5 @@ h5py==3.14.0
 matplotlib==3.6.3
 shap==0.41.0
 geopandas==0.12.2
+fiona==1.9.6        # geopandas 0.12.2's reader needs fiona.path; fiona>=1.10 removed it and breaks rmse_maps.py
 mapclassify==2.4.3

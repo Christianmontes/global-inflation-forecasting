@@ -34,11 +34,12 @@ are skipped by the metrics.
 
 For the aSPA test, the squared-error loss differentials of the four
 horizons are aligned on common target dates (longer horizons start
-later), as in Quaedvlieg's original MATLAB implementation. The test
-bootstrap is random; the run is made
-reproducible by reseeding for every country/model pair, but the
-p-values are not bit-identical to the MATLAB run used for the paper,
-which drew from one global rng(4) stream.
+later), as in Quaedvlieg's original MATLAB implementation. The
+bootstrap is made reproducible by reseeding for every country/model
+pair (np.random.default_rng(4)); these seeded p-values reproduce
+identically run-to-run and are the values reported in the paper's
+Tables 2, 3, 12 and 13. (They differ only marginally -- at most 0.004
+in the mean p-value -- from the earlier single-stream MATLAB rng(4) run.)
 """
 
 import sys

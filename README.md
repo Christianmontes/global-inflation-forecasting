@@ -5,6 +5,7 @@ International Journal of Forecasting, manuscript IJF-D-25-00472R1.
 - **Package assembled:** 2026-06-18
 - **Authors of the paper:** Marcelo C. Medeiros, Erik Christian Montes Schutte, and Tobias Skipper Soussi
 - **Package author / contact for the reproducibility check:** Tobias Skipper Soussi — tss@econ.au.dk
+- **License:** MIT — see [`LICENSE`](LICENSE).
 
 ---
 
@@ -25,12 +26,11 @@ There are **two ways** to reproduce the results (details in §6):
 - **Path A — tables & figures only (fast, exact).** Run the scripts in `Tables/`
   and `Figures/` on the forecast-error files already provided in
   `Replication results/`. This reproduces every table and figure in the paper
-  **exactly** (verified bit-for-bit), with one documented exception: the
-  multi-horizon aSPA columns of Tables 2, 3, 12 and 13 are produced by a
-  *seeded* moving-block bootstrap that differs from the paper's original MATLAB
-  `rng(4)` run by at most 0.004 in the mean p-value and 2 percentage points in
-  the share below 5%. Every other column is bit-for-bit exact and no conclusion
-  changes; see the note in `Tables/forecast_evaluation.py`.
+  **exactly** (verified bit-for-bit). The multi-horizon aSPA columns of
+  Tables 2, 3, 12 and 13 come from a *seeded* moving-block bootstrap
+  (`np.random.default_rng(4)`): they reproduce identically run-to-run, and the
+  printed tables report exactly these values. See the note in
+  `Tables/forecast_evaluation.py`.
 - **Path B — regenerate the forecasts (very heavy).** Re-run the scripts in
   `Forecasting/` to recompute the forecast-error files, then run Path A. Most
   models reproduce to machine precision; a few do not reproduce *bit-for-bit*,
@@ -125,8 +125,13 @@ There are **two ways** to reproduce the results (details in §6):
   `Replication results/Main case/`); the regressors are trade openness ((imports + exports) /
   GDP), GDP growth, GDP-per-capita growth, the unemployment rate, and the average inflation
   rate. Inflation is from the Global Database of Inflation (above); the macro regressors are
-  from the **World Bank World Development Indicators** (WDI) — imports, exports, GDP,
-  GDP per capita, and unemployment series, **downloaded 23 August 2022**. (WDI is periodically
+  from the **World Bank World Development Indicators**
+  (WDI, <https://databank.worldbank.org/source/world-development-indicators>; free, public,
+  no registration or cost) — imports of goods and services (% of GDP, `NE.IMP.GNFS.ZS`),
+  exports of goods and services (% of GDP, `NE.EXP.GNFS.ZS`), GDP growth (annual %,
+  `NY.GDP.MKTP.KD.ZG`), GDP-per-capita growth (annual %, `NY.GDP.PCAP.KD.ZG`), and
+  unemployment (% of total labour force, `SL.UEM.TOTL.ZS`), **downloaded 23 August 2022**.
+  (WDI is periodically
   revised, so a fresh download may differ; the panel is therefore shipped as the intermediary
   file below.) These CSVs are **intermediary
   data**, shipped directly so `Panel Regressions Python/run_pcse.py` reproduces Table 4 without
