@@ -13,10 +13,10 @@ per-country metric is averaged across all 91 countries, and each row
 reports this average relative to the baseline RF model with simple
 cross-sectional mean factors (the RF model of Table 2).
 
-Known deviations from the published table (all other cells match):
-  - PCA, MAD, h = 12: the data gives 1.002; the paper prints 1.102,
-    which appears to be a typo (the RMSE ratio at h = 12 is 1.003).
-  - AE, MAD, h = 1: the data gives 0.996; the paper prints 1.000.
+This script reproduces the published (final-submission) Table 11 exactly. Two
+typos in the originally submitted version (PCA MAD h = 12; AE MAD h = 1) were
+corrected in the final published table and now agree with the values produced
+here.
 """
 
 import sys

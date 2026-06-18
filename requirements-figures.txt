@@ -31,6 +31,6 @@ h5py==3.14.0
 
 # figure-only dependencies
 matplotlib==3.6.3
-shap
-geopandas
-mapclassify
+shap==0.41.0
+geopandas==0.12.2
+mapclassify==2.4.3
