@@ -113,6 +113,20 @@ There are **two ways** to reproduce the results (details in §6):
   `prepare_missing.m` and `factors_em.m` for the EM-based handling of missing
   observations). They are included so the forecasting code runs directly; they
   can be regenerated from the raw data with MATLAB.
+- **Panel-regression inputs** (`Panel Regressions Python/Data/Panelh{1,3,6,12}.csv`, one file
+  per horizon): the country–year panel behind **Table 4** (determinants of forecasting
+  outperformance), for 86 countries over 2000–2019. The dependent variable is the annual
+  RW−RF squared-loss differential (derived from this package's RW and RF forecast errors in
+  `Replication results/Main case/`); the regressors are trade openness ((imports + exports) /
+  GDP), GDP growth, GDP-per-capita growth, the unemployment rate, and the average inflation
+  rate. Inflation is from the Global Database of Inflation (above); the macro regressors are
+  from the **World Bank World Development Indicators** (WDI) — imports, exports, GDP,
+  GDP per capita, and unemployment series, **downloaded 23 August 2022**. (WDI is periodically
+  revised, so a fresh download may differ; the panel is therefore shipped as the intermediary
+  file below.) These CSVs are **intermediary
+  data**, shipped directly so `Panel Regressions Python/run_pcse.py` reproduces Table 4 without
+  rebuilding them (the upstream assembly scripts are not included — per the IJF allowance for
+  shipping intermediary files).
 - **Map shapefile** (`Figures/ne_10m_admin_0_countries/`): Natural Earth 1:10m
   Admin-0 countries, used only by `rmse_maps.py`. Natural Earth data is in the
   **public domain**; the files are bundled for convenience.
@@ -131,6 +145,21 @@ There are **two ways** to reproduce the results (details in §6):
     rest of the verification still carried out — only those four figures need them.
     [TODO: decide whether to host these two folders on Zenodo/OSF (for a DOI) and
     link them here, or leave them as regenerated-only.]
+
+### Data lineage at a glance (raw → intermediary → outputs)
+
+Every file marked *intermediary* below is **included** in the package so the check runs without
+the heavy upstream steps; the "built by" column names the code that produces it (per the IJF
+guidance to flag intermediary data and the code that generates it).
+
+| Pipeline | Raw inputs (bundled) | Intermediary (bundled) | Built by | Used to produce |
+|---|---|---|---|---|
+| **Forecasting** | `Data/Raw data*.xlsx` (CPI inflation) | `Processed data/Data_Global*.xlsx` | `Data work/*.m` — MATLAB (`build_data_global.m`, `factors_em.m`, `prepare_missing.m`) | `Replication results/` forecast-error files → Tables 2, 3, 5–13 and the figures |
+| **Panel regression (Table 4)** | inflation (above) + macro regressors (see *Panel-regression inputs*) | `Panel Regressions Python/Data/Panelh{1,3,6,12}.csv` | upstream assembly scripts (not shipped); the RW−RF loss differential comes from `Replication results/Main case/{RW,RF}/` | `Panel Regressions Python/run_pcse.py` → Table 4 |
+
+Rebuilding `Processed data/` from the raw inflation data requires **MATLAB** (`Data work/`);
+regenerating the forecast-error files is the months-long Path B (`Forecasting/`). Per the IJF
+guidance, these intermediaries may be used as-is when regenerating them from raw is impractical.
 
 ---
 
