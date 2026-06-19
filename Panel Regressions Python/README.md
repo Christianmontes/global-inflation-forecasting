@@ -30,13 +30,13 @@ python run_pcse.py
 ```
 
 ## Notes
-- **Validated against R.** Output is identical to the original `run_pcse.R`
-  (R 4.6.0) to ~1e-7 on every coefficient, SE, t-stat, N and k.
+- **Validated against the original R/Stata implementation:** identical to ~1e-7 on every
+  coefficient, SE, t-stat, N and k.
 - **Sample alignment.** The openness-only model is reported on two samples: its
   own (`orig`, reproduces the originally submitted table) and the full-model
   sample (`align`, the sample-consistent version used in the paper). They differ
   because the full model first-differences GDP (dropping each country's first
   year, 2000) and requires the controls to be non-missing — ~108 fewer obs.
-- The `NaNs produced` situation for a few fixed-effect dummies is benign and also
-  occurs in R; it never affects a reported coefficient.
+- The `NaNs produced` situation for a few fixed-effect dummies is benign; it never
+  affects a reported coefficient.
 - Panel: 86 countries, 2000–2019.
