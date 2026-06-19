@@ -183,7 +183,6 @@ guidance, these intermediaries may be used as-is when regenerating them from raw
   `Processed data/` panels.
 - **Table 4 (panel regressions)** — reproduced by `Panel Regressions Python/run_pcse.py`
   (Python; needs only `numpy` + `pandas`, listed in `Panel Regressions Python/requirements.txt`).
-  No R is required.
 - **Operating system:** the Python code is OS-independent. The paper's forecasts
   were produced on the grendel Linux HPC cluster (see §7). The package is split
   into a forecasting env and a figures env (the figures need `geopandas`, which
