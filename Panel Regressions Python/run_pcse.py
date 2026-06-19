@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-run_pcse.py - Python reproduction of run_pcse.R (paper Table 4 panel regressions).
+run_pcse.py - Python reproduction of the R/Stata panel regressions (paper Table 4).
 
 Two-way fixed-effects OLS with Beck-Katz pairwise panel-corrected standard errors
-(PCSE) and the nmk small-sample correction. Verified IDENTICAL to R 4.6.0
-(run_pcse.R) to ~1e-7 on every coefficient, standard error, t-statistic, N and k.
+(PCSE) and the nmk small-sample correction. Verified identical to the original
+R/Stata implementation to ~1e-7 on every coefficient, standard error, t-statistic, N and k.
 
 Reproduces the Stata command:
     xtpcse lossdhH openess D.gdp D.gdp_percapita avginf unemp i.year i.id, pairwise nmk
@@ -42,7 +42,7 @@ def make_diffs(df, id_col, time_col, cols):
 
 
 def bk_pcse_vcov(id_vec, time_vec, resid, X):
-    """Beck-Katz pairwise PCSE covariance matrix (port of bk_pcse_vcov in run_pcse.R)."""
+    """Beck-Katz pairwise PCSE covariance matrix (ported from the original R)."""
     id_vec = np.asarray(id_vec).astype(str)
     time_vec = np.asarray(time_vec).astype(str)
     resid = np.asarray(resid, float)
