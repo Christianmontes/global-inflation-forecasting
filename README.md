@@ -2,7 +2,7 @@
 
 International Journal of Forecasting, manuscript IJF-D-25-00472R1.
 
-- **Package assembled:** 2026-06-18
+- **Package assembled:** 2026-06-19
 - **Authors of the paper:** Marcelo C. Medeiros, Erik Christian Montes Schutte, and Tobias Skipper Soussi
 - **Package authors / contacts for the reproducibility check:** Tobias Skipper Soussi — tss@econ.au.dk; Erik Christian Montes Schutte — christianms@econ.au.dk
 - **License:** MIT — see [`LICENSE`](LICENSE).
