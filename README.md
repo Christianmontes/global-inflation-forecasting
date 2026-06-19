@@ -213,10 +213,10 @@ uv pip install --python .venv-fig/Scripts/python.exe -r requirements-figures.txt
 # macOS/Linux:  uv pip install --python .venv-fig/bin/python -r requirements-figures.txt
 ```
 > The figure scripts only read pre-computed result files, so the figures env does
-> not need to match the forecasting pins exactly. `cssed_plots.py`,
-> `rmse_boxplots.py`, `case_study_importance.py`, `stacked_importance.py` and
-> `dependence_plots.py` need only `matplotlib` (+ `shap` for the SHAP figures);
-> `rmse_maps.py` additionally needs `geopandas` + `mapclassify`.
+> not need to match the forecasting pins exactly. Installing `requirements-figures.txt`
+> covers all of them; beyond the shared core stack and `matplotlib`, only
+> `dependence_plots.py` additionally needs `shap`, and only `rmse_maps.py` needs
+> `geopandas` + `mapclassify`.
 
 **Data-construction env:** MATLAB (any version) for `Data work/*.m` (only if
 rebuilding `Processed data/` from the raw data).
@@ -313,7 +313,7 @@ the autoencoder factors used by `Forecast_RF_AE.py`. See §7 for runtime.
 
 ---
 
-## 9. Known issues / housekeeping
+## 9. Additional notes
 
 - Table 1 and Figures 6–8 are prepared manually (not script-generated); Table 4 is produced by `Panel Regressions Python/run_pcse.py` — see §6.
 - `RF_shapvalues_train_only/` (~16 GB) and `RF_datasets_train_only/` (~0.5 GB)
