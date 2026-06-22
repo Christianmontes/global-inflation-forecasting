@@ -22,18 +22,11 @@ from typing import Dict, Tuple, Optional, Iterable
 from dataclasses import dataclass
 from pathlib import Path
 import pickle
-# Heavy, forecasting-only dependencies (used by the Forecast_*.py routines below).
-# Imported lazily so the lightweight Tables/ and Figures/ helpers (rmse, mad,
-# test_aspa, _EncompassingTest, _BarFigureImportance) import without
-# TensorFlow/Keras, XGBoost or Optuna installed.
-try:
-    from keras.models import Model
-    from keras.layers import Input, Dense, LeakyReLU
-    from keras.regularizers import l1
-    import xgboost as xgb
-    import optuna
-except ImportError:  # only the forecasting routines need these
-    Model = Input = Dense = LeakyReLU = l1 = xgb = optuna = None
+from keras.models import Model
+from keras.layers import Input, Dense, LeakyReLU
+from keras.regularizers import l1
+import xgboost as xgb
+import optuna
 from statsmodels.tsa.statespace.dynamic_factor import DynamicFactor
 
 def load_panels(
